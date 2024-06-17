@@ -387,7 +387,7 @@ class FirebaseChatCore {
   /// room ID. Message will probably be taken from the [messages] stream.
   void updateMessage(types.Message message, String roomId) async {
     if (firebaseUser == null) return;
-    if (message.author.id != firebaseUser!.uid) return;
+    // if (message.author.id != firebaseUser!.uid) return;
 
     final messageMap = message.toJson();
     messageMap.removeWhere(
@@ -401,6 +401,27 @@ class FirebaseChatCore {
         .doc(message.id)
         .update(messageMap);
   }
+
+
+  /// Updates a message in the Firestore. Accepts any message and a
+  /// room ID. Message will probably be taken from the [messages] stream.
+  void deleteUpdateMessage(types.Message message, String roomId) async {
+    if (firebaseUser == null) return;
+    if (message.author.id != firebaseUser!.uid) return;
+
+    final messageMap = message.toJson();
+    messageMap.removeWhere(
+          (key, value) => key == 'author' || key == 'createdAt' || key == 'id',
+    );
+    messageMap['authorId'] = message.author.id;
+    messageMap['updatedAt'] = FieldValue.serverTimestamp();
+
+    await getFirebaseFirestore()
+        .collection('${config.roomsCollectionName}/$roomId/messages')
+        .doc(message.id)
+        .update(messageMap);
+  }
+
 
   /// Updates a room in the Firestore. Accepts any room.
   /// Room will probably be taken from the [rooms] stream.

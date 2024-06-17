@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+// import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_firebase_chat_core/flutter_firebase_chat_core.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -210,17 +210,18 @@ class _ChatPageState extends State<ChatPage> {
           builder: (context, snapshot) => StreamBuilder<List<types.Message>>(
             initialData: const [],
             stream: FirebaseChatCore.instance.messages(snapshot.data!),
-            builder: (context, snapshot) => Chat(
-              isAttachmentUploading: _isAttachmentUploading,
-              messages: snapshot.data ?? [],
-              onAttachmentPressed: _handleAtachmentPressed,
-              onMessageTap: _handleMessageTap,
-              onPreviewDataFetched: _handlePreviewDataFetched,
-              onSendPressed: _handleSendPressed,
-              user: types.User(
-                id: FirebaseChatCore.instance.firebaseUser?.uid ?? '',
-              ),
-            ),
+            builder: (context, snapshot) => Container()
+            //     Chat(
+            //   isAttachmentUploading: _isAttachmentUploading,
+            //   messages: snapshot.data ?? [],
+            //   onAttachmentPressed: _handleAtachmentPressed,
+            //   onMessageTap: _handleMessageTap,
+            //   onPreviewDataFetched: _handlePreviewDataFetched,
+            //   onSendPressed: _handleSendPressed,
+            //   user: types.User(
+            //     id: FirebaseChatCore.instance.firebaseUser?.uid ?? '',
+            //   ),
+            // ),
           ),
         ),
       );
