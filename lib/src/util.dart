@@ -91,8 +91,7 @@ Future<types.Room> processRoomDocument(
       );
 
       imageUrl = otherUser['imageUrl'] as String?;
-      name = '${otherUser['firstName'] ?? ''} ${otherUser['lastName'] ?? ''}'
-          .trim();
+      name = '${otherUser['normalise_phone_number'] ?? ''}'.trim();
     } catch (e) {
       // Do nothing if other user is not found, because he should be found.
       // Consider falling back to some default values.
