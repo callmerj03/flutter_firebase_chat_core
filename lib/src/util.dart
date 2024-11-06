@@ -86,9 +86,21 @@ Future<types.Room> processRoomDocument(
 
   if (type == types.RoomType.direct.toShortString()) {
     try {
-      final otherUser = users.firstWhere(
-        (u) => u['id'] != firebaseUser.uid,
-      );
+      var otherUser;
+
+      if (userIds.length == 2) {
+        String uid1 = userIds[0];
+        String uid2 = userIds[1];
+        if (uid1 == uid2) {
+          otherUser = users[0];
+        }
+      }
+
+      if (otherUser == null) {
+        otherUser = users.firstWhere(
+          (u) => u['id'] != firebaseUser.uid,
+        );
+      }
 
       imageUrl = otherUser['imageUrl'] as String?;
       name = '${otherUser['firstName'] ?? ''} ${otherUser['lastName'] ?? ''}'.trim();
